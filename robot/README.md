@@ -1,5 +1,16 @@
 This subdirectory contains the code for the front end robot interface.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/99392d75-9fee-4847-8199-6fa051fc4249/deploy-status)](https://app.netlify.com/sites/askharold/deploys)
+
+# Overview
+
+This is the front end for the CS-633 team 8 project. The master branch is protected for Continuous Deployment to Netlify.
+The site itself uses the React framework with Pusher for realtime chat.
+
+# To Develop
+
+Either clone and create feature or bug brach to contribute.
+
 # To run on local machine
 Please make sure you have [node](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/en/docs/install) installed in your system.
 
