@@ -2,15 +2,7 @@
 Team 8 term project for cs633
 
 # To run on local machine
-Please make sure you have [node](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/en/docs/install) installed in your system.
-
-Please run the following commands to clone the project, install dependencies and start the application.
-
-```bash
-git clone https://github.com/CS-633-Team-8/term_project.git   # clone the project
-yarn install  # install dependencies
-yarn start  # start the project
-```
+Currently the project is split into Robot and Server, to test the Robot interface see the README in the sub folder.
 
 # Branch Policy
 To work on feature or bug name your branch with a relevant title. 
