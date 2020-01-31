@@ -5,8 +5,6 @@ import styled from 'styled-components';
 
 import {
   MOBILE_BREAKPOINT_MAX,
-  TABLET_BREAKPOINT_MIN,
-  TABLET_BREAKPOINT_MAX,
 } from '../constants';
 
 const tickVariants = {
@@ -15,12 +13,12 @@ const tickVariants = {
     unchecked: { pathLength: 0 }
 };
 
-const boxVariants = {
-    hover: { scale: 1.05, strokeWidth: 60 },
-    pressed: { scale: 0.95, strokeWidth: 35 },
-    checked: { stroke: "#FF008C" },
-    unchecked: { stroke: "#ddd", strokeWidth: 50 }
-};
+// const boxVariants = {
+//     hover: { scale: 1.05, strokeWidth: 60 },
+//     pressed: { scale: 0.95, strokeWidth: 35 },
+//     checked: { stroke: "#FF008C" },
+//     unchecked: { stroke: "#ddd", strokeWidth: 50 }
+// };
 
 export const ElephantWrapper = styled.div`
   display: flex;

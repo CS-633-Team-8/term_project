@@ -7,11 +7,8 @@ import Nav, {
   AkNavigationItem,
   AkSearchDrawer
 } from "@atlaskit/navigation";
-import DashboardIcon from "@atlaskit/icon/glyph/dashboard";
-import GearIcon from "@atlaskit/icon/glyph/settings";
 import SearchIcon from "@atlaskit/icon/glyph/search";
 import CreateIcon from "@atlaskit/icon/glyph/add";
-import AtlassianIcon from "@atlaskit/icon/glyph/atlassian";
 import SwitcherIcon from "@atlaskit/icon/glyph/switcher";
 import ArrowleftIcon from "@atlaskit/icon/glyph/arrow-left";
 import TableIcon from "@atlaskit/icon/glyph/table";
