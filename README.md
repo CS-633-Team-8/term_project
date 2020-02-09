@@ -10,12 +10,12 @@ Please make sure you have [node](https://nodejs.org/en/download/) and [yarn](htt
 
 Begin by cloning the repository into a local folder of your choice:
 
-`git clone https://github.com/CS-633-Team-8/term_project.git`
+`git clone https://github.com/CS-633-Team-8/term_project.git`  
 `cd /term_project` # change to project folder
 
 ## Start the Server
 
-`cd /server` # change to server folder
+`cd /server` # change to server folder  
 `node server.js` # start server
 
 The api calls will automatically be made to localhost when in development mode.
@@ -24,15 +24,15 @@ The api calls will automatically be made to localhost when in development mode.
 
 The UI runs locally with `react-scripts`
 
-`cd /robot` # change to Robot sub-folder
-`yarn install` # install dependencies
-`yarn start` # start the project`
+`cd /robot` # change to Robot sub-folder  
+`yarn install` # install dependencies  
+`yarn start` # start the project`  
 
 ## Tests
 
 Unit tests are run from local folders
 
-`cd /robot`
+`cd /robot`  
 `yarn test`
 
 # Branch Policy
