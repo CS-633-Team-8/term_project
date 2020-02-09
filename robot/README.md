@@ -26,3 +26,13 @@ yarn start  # start the project
 Alternatively if you would like to work online, sign up for GitPod and use: 
 
 https://gitpod.io/#https://github.com/CS-633-Team-8/term_project.git
+
+## Tests
+
+Unit tests are run from local folders
+
+`cd /robot`
+`yarn test`
+
+
+
