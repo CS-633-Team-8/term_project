@@ -1,5 +1,8 @@
 # Harold the Chat Bot - CS633 Team 8 Project
 
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/99392d75-9fee-4847-8199-6fa051fc4249/deploy-status)](https://app.netlify.com/sites/askharold/deploys)  
+
 Team 8 term project for CS633, a friendly elephant who knows everything about anything.
 
 The project is split into the front end UI /robot, and the api chat server /server. The system is continuously deployed from the master branch, the UI to Netlify and the API to Heroku.
