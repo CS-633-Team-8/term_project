@@ -16,6 +16,15 @@ if (process.env.NODE_ENV !== 'production') {
   apiPath = 'http://localhost:5000/chat'
 }
 
+var ID = function () {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+const sessionID = ID()
+
 export default class ChatInterface extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +43,16 @@ export default class ChatInterface extends Component {
 
     const channel = pusher.subscribe('bot');
     channel.bind('bot-response', data => {
-      const msg = {
-        message: data.message,
-        author: 'ai',
-      };
-      this.setState({
-        messages: [...this.state.messages, msg],
-      });
+      console.log("responce from pusher", data)
+      if (data.sessionId === sessionID) {
+        const msg = {
+          message: data.message,
+          author: 'ai',
+        };
+        this.setState({
+          messages: [...this.state.messages, msg],
+        });
+      }
     });
   }
 
@@ -66,6 +78,7 @@ export default class ChatInterface extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: this.state.userMessage,
+        sessionId: sessionID,
       }),
     });
 

@@ -24,10 +24,11 @@ const pusher = new Pusher({
 
 const sessionClient = new Dialogflow.SessionsClient(config);
 
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+const processMessage = (sessionId, message) => {
+  console.log("mprocessMessage called", projectId, sessionId)
 
-const processMessage = message => {
-  console.log("mprocessMessage called")
+  const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+
   const request = {
     session: sessionPath,
     queryInput: {
@@ -43,7 +44,8 @@ const processMessage = message => {
     .then(responses => {
       const result = responses[0].queryResult;
       return pusher.trigger("bot", "bot-response", {
-        message: result.fulfillmentText
+        message: result.fulfillmentText,
+        sessionId: sessionId
       });
     })
     .catch(err => {

@@ -82,11 +82,11 @@ export default class HomePage extends Component {
           </Intro>
          
           </GridColumn>
-          <GridColumn medium={6}>
+          <GridColumn medium={6} small={12}>
             <Elephant />
           </GridColumn>
           
-          <GridColumn medium={4}>
+          <GridColumn medium={4} small={12}  >
             <ChatWindow />
           </GridColumn>
           <Cards />
