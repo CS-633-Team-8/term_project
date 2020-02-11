@@ -149,28 +149,6 @@ export default class HomePage extends Component {
           </Page>
         </HomePageWrapper>
       </div>
-      <HomePageWrapper>
-        <Style />
-        <Page>
-        <Grid spacing="compact">
-          <GridColumn medium={12}>
-          <Title data-testid="title">I'm asking Harold</Title>
-          <Intro>
-            Your friendly knowledgable Elephant UNDER DEVELOPMENT.
-          </Intro>
-         
-          </GridColumn>
-          <GridColumn medium={6} small={12}>
-            <Elephant />
-          </GridColumn>
-          
-          <GridColumn medium={4} small={12}  >
-            <ChatWindow />
-          </GridColumn>
-          <Cards />
-          </Grid>
-        </Page>
-      </HomePageWrapper>
     );
   }
 }
