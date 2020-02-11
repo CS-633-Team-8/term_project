@@ -19,6 +19,7 @@ Begin by cloning the repository into a local folder of your choice:
 ## Start the Server
 
 `cd /server` # change to server folder  
+`node install` # install dependencies  
 `node server.js` # start server
 
 The api calls will automatically be made to localhost when in development mode.
