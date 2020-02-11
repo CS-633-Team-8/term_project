@@ -48,6 +48,10 @@ const HomePageWrapper = styled.div`
   @media (min-width: ${DESKTOP_BREAKPOINT_MIN}px) {
     margin-right: 64px;
   }
+
+  @media (max-width: ${DESKTOP_BREAKPOINT_MIN}px) {
+    margin: 12px;
+  }
 `;
 
 const Style = () => (
