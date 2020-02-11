@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
+import Page, { Grid, GridColumn } from '@atlaskit/page';
 import Elephant from '../components/Elephant'
-//import Cards from './Cards';
 import { DESKTOP_BREAKPOINT_MIN } from '../constants';
 import Cards from '../components/Cards'
+import ChatWindow from '../components/ChatWindow'
 
 const fonts =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
@@ -55,6 +56,7 @@ const Style = () => (
 `}</style>
 );
 
+
 export default class HomePage extends Component {
   static contextTypes = {
     showModal: PropTypes.func,
@@ -64,17 +66,32 @@ export default class HomePage extends Component {
     onClose: PropTypes.func,
   };
 
+  
+
   // TODO: Add Helmet
   render() {
     return (
       <HomePageWrapper>
         <Style />
-        <Title data-testid="title">I'm asking Harold</Title>
-        <Intro>
-          Your friendly knowledgable Elephant UNDER DEVELOPMENT.
-        </Intro>
-        <Elephant />
-        <Cards />
+        <Page>
+        <Grid spacing="compact">
+          <GridColumn medium={12}>
+          <Title data-testid="title">I'm asking Harold</Title>
+          <Intro>
+            Your friendly knowledgable Elephant UNDER DEVELOPMENT.
+          </Intro>
+         
+          </GridColumn>
+          <GridColumn medium={6} small={12}>
+            <Elephant />
+          </GridColumn>
+          
+          <GridColumn medium={4} small={12}  >
+            <ChatWindow />
+          </GridColumn>
+          <Cards />
+          </Grid>
+        </Page>
       </HomePageWrapper>
     );
   }

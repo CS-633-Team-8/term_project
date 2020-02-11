@@ -1,0 +1,8 @@
+.message-list-container {
+  padding: 10px;
+  padding-bottom: 70px;
+  overflow: scroll;
+  border-color: white;
+  border-radius: 2px;
+  border-width: 2px;
+}
