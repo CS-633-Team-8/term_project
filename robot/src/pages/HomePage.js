@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import Elephant from '../components/Elephant'
-import { DESKTOP_BREAKPOINT_MIN } from '../constants';
+import { DESKTOP_BREAKPOINT_MIN, MOBILE_BREAKPOINT_MAX, BASE_TITLE } from '../constants';
 import Cards from '../components/Cards'
 import ChatWindow from '../components/ChatWindow'
+import debounce from 'lodash.debounce';
+import { Helmet } from 'react-helmet';
 
 const fonts =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
@@ -46,6 +48,10 @@ const HomePageWrapper = styled.div`
   @media (min-width: ${DESKTOP_BREAKPOINT_MIN}px) {
     margin-right: 64px;
   }
+
+  @media (max-width: ${DESKTOP_BREAKPOINT_MIN}px) {
+    margin: 12px;
+  }
 `;
 
 const Style = () => (
@@ -66,15 +72,38 @@ export default class HomePage extends Component {
     onClose: PropTypes.func,
   };
 
-  
+  constructor() {
+    super(...arguments);
+    this.state = {
+        isMobile: false,
+    };
+    this.detectWidth = () => {
+      const width = window.innerWidth;
+      if (width <= MOBILE_BREAKPOINT_MAX) {
+          this.setState({ isMobile: true });
+      } else {
+        this.setState({ isMobile: false });
+      }
+    };
+  };
 
-  // TODO: Add Helmet
+  componentDidMount() {
+    this.debouncedDetect = debounce(this.detectWidth, 500);
+    window.addEventListener('resize', this.debouncedDetect);
+    this.detectWidth();
+  }
+  componentWillUnmount() {
+    if (this.debouncedDetect) {
+      window.removeEventListener('resize', this.debouncedDetect);
+    }
+  }
+
   render() {
-    return (
-      <HomePageWrapper>
-        <Style />
-        <Page>
-        <Grid spacing="compact">
+    const renderLayout = () => {
+      if (!this.state.isMobile) {
+        console.log("is not Mobile")
+        return (
+          <Grid spacing="compact">
           <GridColumn medium={12}>
           <Title data-testid="title">I'm asking Harold</Title>
           <Intro>
@@ -91,8 +120,40 @@ export default class HomePage extends Component {
           </GridColumn>
           <Cards />
           </Grid>
-        </Page>
-      </HomePageWrapper>
+        ) 
+      } else {
+        console.log("is Mobile")
+        return (
+          <Grid spacing="compact">
+          <GridColumn medium={6}>
+          <Title data-testid="title">I'm asking Harold</Title>
+         
+          </GridColumn>
+          <GridColumn medium={6} >
+            <Elephant />
+          </GridColumn>
+          
+          <GridColumn medium={12} >
+            <ChatWindow />
+          </GridColumn>
+          <Cards />
+          </Grid>
+        )
+      }
+    }
+
+    return (
+      <div>
+        <Helmet>
+            <title>{`${BASE_TITLE}`}</title>
+          </Helmet>
+        <HomePageWrapper>
+          <Style />
+          <Page>
+            {renderLayout()}
+          </Page>
+        </HomePageWrapper>
+      </div>
     );
   }
 }
