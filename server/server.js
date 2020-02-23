@@ -20,6 +20,7 @@ app.get('/faqs', (req, res) => {
 
   const secretHeader = req.header('secretID');
   //console.log(secretHeader);
+  console.log(require('./gcpconfig.json'))
   if (secretHeader === process.env.OUR_LITTLE_SECRET) {
     processFAQS.getFAQSAsJSON().then(json => 
       res.json(json)
@@ -27,6 +28,7 @@ app.get('/faqs', (req, res) => {
   } else {
     console.log("Rejecting FAQ request");
     res.statusCode = 401;
+    res.body("Not Authorised")
   }
 });
 
