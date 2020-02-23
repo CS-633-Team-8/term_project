@@ -14,4 +14,4 @@ export const DESKTOP_BREAKPOINT_MIN = TABLET_BREAKPOINT_MAX + 1;
 
 export const BASE_TITLE = 'Harold the Chat Bot';
 
-export const API_PATH = 'https://harold-server.herokuapp.com/chat'
+export const API_PATH = 'https://harold-server.herokuapp.com/'

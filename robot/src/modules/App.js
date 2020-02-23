@@ -1,95 +1,90 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import Flag, { FlagGroup } from '@atlaskit/flag';
-import Modal from '@atlaskit/modal-dialog';
+import React from 'react';
+import Media from 'react-media';
+import GlobalTheme from '@atlaskit/theme';
 import Page from '@atlaskit/page';
-import '@atlaskit/css-reset';
+import { BrowserRouter, Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { DESKTOP_BREAKPOINT_MIN } from '../constants';
+//import { modalRoutes, pageRoutes } from './routes';
+import { pageRoutes } from './routes';
+import ScrollHandler from '../components/ScrollToTop';
+import ErrorBoundary from '../components/ErrorBoundary';
+import DesktopNav from './DesktopNav';
+import MobileNav from './MobileNav';
+import ModalDialog, { ModalTransition, ModalFooter } from '@atlaskit/modal-dialog';
+import Form, { Field, FormFooter } from '@atlaskit/form';
+import TextField from '@atlaskit/textfield';
+import Button from '@atlaskit/button';
+import { useIdentityContext } from 'react-netlify-identity';
 
-import StarterNavigation from '../components/StarterNavigation';
+export default () => {
+    return (<GlobalTheme.Provider value={() => ({ mode: 'light' })}>
+      <BrowserRouter>
+      <CatchNetlifyRecoveryNullComponent />
+        <Media query={`(min-width: ${DESKTOP_BREAKPOINT_MIN}px)`}>
+          {(isDesktop) => (
+            <div>
+              <ScrollHandler />
+              <Switch>
+                {/* <Route path="/" component={HomePage}/> */}
+                <Route render={appRouteDetails => (<Page navigation={isDesktop ? <DesktopNav {...appRouteDetails}/> : false}>
+                      {!isDesktop && (<MobileNav appRouteDetails={appRouteDetails}/>)}
+                      <ErrorBoundary>
+                        <Switch>
+                          {pageRoutes.map((routeProps, index) => (<Route {...routeProps} key={index}/>))}
+                        </Switch>
 
-export default class App extends Component {
-  state = {
-    flags: [],
-    isModalOpen: false,
-  };
+                        {/* {modalRoutes.map((modal, index) => (<Route {...modal} key={index}/>))} */}
+                      </ErrorBoundary>
+                    </Page>)}/>
+              </Switch>
+            </div>)}
+        </Media>
+      </BrowserRouter>
+    </GlobalTheme.Provider>);
+};
 
-  static contextTypes = {
-    navOpenState: PropTypes.object,
-    router: PropTypes.object,
-  };
+function CatchNetlifyRecoveryNullComponent() {
+  const formRef = React.useRef()
+  const {
+    param: { token, type }, signupUser
+  } = useIdentityContext();
+  const { replace } = useHistory();
+  const { pathname } = useLocation();
 
-  static propTypes = {
-    navOpenState: PropTypes.object,
-    onNavResize: PropTypes.func,
-  };
-
-  static childContextTypes = {
-    showModal: PropTypes.func,
-    addFlag: PropTypes.func,
-  }
-
-  getChildContext() {
-    return {
-      showModal: this.showModal,
-      addFlag: this.addFlag,
-    };
-  }
-
-  showModal = () => {
-    this.setState({ isModalOpen: true });
-  }
-
-  hideModal = () => {
-    this.setState({ isModalOpen: false });
-  }
-
-  addFlag = () => {
-    this.setState({ flags: [{ id: Date.now() }].concat(this.state.flags) });
-  }
-
-  onFlagDismissed = (dismissedFlagId) => {
-    this.setState({
-      flags: this.state.flags.filter(flag => flag.id !== dismissedFlagId),
-    })
-  }
-
-  render() {
+  // important to check for the current pathname here because else you land
+  // in a infinite loop
+  if (token && type === 'invite' && pathname === '/') {
+    console.log("initiate")
     return (
-      <div>
-        <Page
-          navigationWidth={this.context.navOpenState.width}
-          navigation={<StarterNavigation />}
-        >
-          {this.props.children}
-        </Page>
-        <div>
-          <FlagGroup onDismissed={this.onFlagDismissed}>
-            {
-              this.state.flags.map(flag => (
-                <Flag
-                  id={flag.id}
-                  key={flag.id}
-                  title="Flag Title"
-                  description="Flag description"
-                />
-              ))
-            }
-          </FlagGroup>
-          {
-            this.state.isModalOpen && (
-              <Modal
-                heading="Candy bar"
-                actions={[{ text: 'Exit candy bar', onClick: this.hideModal }]}
-                onClose={this.hideModal}
-              >
-                <p style={{ textAlign: 'center' }}>
-                  <img src="http://i.giphy.com/yidUztgRB2w2gtDwL6.gif" alt="Moar cupcakes" />
-                </p>
-              </Modal>
-            )
-          }
-        </div>
-      </div>
-    );
+      <ModalTransition>
+        <ModalDialog heading="Register">
+            <Form ref={formRef} onSubmit={e => {
+              console.log(e)
+              const email = e.email
+              const password = e.password
+              signupUser(email, password)
+            }}>
+            {({ formProps }) => (
+              <form {...formProps}>
+                <Field name="email" defaultValue="" label="Email" isRequired>
+                  {({ fieldProps }) => <TextField {...fieldProps} />}
+                </Field>
+                <Field name="password" defaultValue="" label="Password" isRequired>
+                  {({ fieldProps }) => <TextField {...fieldProps} />}
+                </Field>
+                <FormFooter>
+                    <Button type="submit" appearance="primary">
+                      Register
+                    </Button>
+                </FormFooter>
+              </form>
+            )}
+            </Form>
+            <ModalFooter />
+        </ModalDialog>
+        </ModalTransition>
+      )
+    } else {
+      return null;
   }
 }

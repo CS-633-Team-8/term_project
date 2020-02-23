@@ -8,6 +8,9 @@ import debounce from 'lodash.debounce';
 import BlogIcon from '@atlaskit/icon/glyph/component';
 import CodeIcon from '@atlaskit/icon/glyph/code';
 import DocumentIcon from '@atlaskit/icon/glyph/document-filled';
+import DiscoverIcon from '@atlaskit/icon/glyph/discover';
+
+import { StoryProvider } from '../../modules/Context/story-context'
 
 // import rocket from '../../assets/Rocket.png';
 // import platform from '../../assets/Platform.png';
@@ -167,7 +170,7 @@ const Img = (src, alt = '') => (
       height: '200px',
       display: 'block',
     }}
-    src={src}
+    src={src.src}
   />
 );
 
@@ -182,34 +185,45 @@ const Img = (src, alt = '') => (
 //   href?: string;
 // };
 
+// class Card extends React.Component {
+//   render() {
+//     const { icon: Icon, text, title, image, alt, ...props } = this.props;
+
+//     const LinkComponent = props.href ? ExternalCard : InternalCard;
+
+//     return (
+//       <LinkComponent {...props}>
+//         <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
+//           <TitleRow>
+//             <Icon />
+//             {title}
+//           </TitleRow>
+//           {text ? <p>{text}</p> : null}
+//         </div>
+//         {image ? <Img src={image} alt={alt} /> : null}
+//       </LinkComponent>
+//     );
+//   }
+// }
+
 class Card extends React.Component {
   render() {
-    const { icon: Icon, text, title, image, alt, ...props } = this.props;
+    const { source, content, title, urlToImage, descrition, author, ...props} = this.props;
 
-    const LinkComponent = props.href ? ExternalCard : InternalCard;
+    const LinkComponent = urlToImage ? ExternalCard : InternalCard;
 
-    return (
-      <LinkComponent {...props}>
-        <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
-          <TitleRow>
-            <Icon />
-            {title}
-          </TitleRow>
-          {text ? <p>{text}</p> : null}
-        </div>
-        {image ? <Img src={image} alt={alt} /> : null}
-      </LinkComponent>
-    );
-  }
-}
-
-const cards = [
-  {
-    href: 'https://github.com/CS-633-Team-8/term_project',
-    to: '',
-    title: 'Project Repository',
-    icon: () => (
-      <CardIcon color={colors.Y400}>
+    const Icon = () => {
+      if (source) {
+        return <CardIcon color={colors.Y400}>
+          <DiscoverIcon
+            label="Project Repository"
+            primaryColor={colors.N0}
+            secondaryColor={colors.Y400}
+            size="small"
+          />
+        </CardIcon>
+      } else {
+        return <CardIcon color={colors.Y400}>
         <CodeIcon
           label="Project Repository"
           primaryColor={colors.N0}
@@ -217,86 +231,23 @@ const cards = [
           size="small"
         />
       </CardIcon>
-    ),
-    text:
-      'Want to dive straight into the code? Check out our repo on GitHub.',
-  },
-  {
-    href: 'https://www.pivotaltracker.com/n/projects/2429792',
-    to: '',
-    title: 'Pivotal Tracker',
-    icon: () => (
-      <CardIcon color={colors.N0}>
-        <DocumentIcon
-          label="Tracker"
-          primaryColor={colors.P400}
-          size="large"
-        />
-      </CardIcon>
-    ),
-    text: 'Keep up to date on the latest in our Pivotal Tracker.',
-  },
-  {
-    href: 'https://google.com',
-    to: '',
-    title: 'Test News Story',
-    icon: () => (
-      <CardIcon color={colors.N0}>
-        <BlogIcon
-          label="Test News"
-          primaryColor={colors.P400}
-          size="medium"
-        />
-      </CardIcon>
-    ),
-    text: 'This is a test news story item',
-  },
-  {
-    href: 'https://google.com',
-    to: '',
-    title: 'Test News Story',
-    icon: () => (
-      <CardIcon color={colors.N0}>
-        <BlogIcon
-          label="Test News"
-          primaryColor={colors.P400}
-          size="medium"
-        />
-      </CardIcon>
-    ),
-    text: 'This is a test news story item',
-  },
-  {
-    href: 'https://google.com',
-    to: '',
-    title: 'Test News Story',
-    icon: () => (
-      <CardIcon color={colors.N0}>
-        <BlogIcon
-          label="Test News"
-          primaryColor={colors.P400}
-          size="medium"
-        />
-      </CardIcon>
-    ),
-    text: 'This is a test news story item',
-  },
-  {
-    href: 'https://google.com',
-    to: '',
-    title: 'Test News Story',
-    icon: () => (
-      <CardIcon color={colors.N0}>
-        <BlogIcon
-          label="Test News"
-          primaryColor={colors.P400}
-          size="medium"
-        />
-      </CardIcon>
-    ),
-    text: 'This is a test news story item',
+      }
+    }
+    console.log(urlToImage)
+    return (
+      <LinkComponent {...props}>
+        <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
+          <TitleRow>
+            {<Icon />}
+            {source ? source.name: null}
+          </TitleRow>
+          {title ? <p>{title}</p> : null}
+        </div>
+        {urlToImage ? <Img src={urlToImage} alt={title} /> : null}
+      </LinkComponent>
+    );
   }
-];
+}
 
 /* eslint-disable react/no-multi-comp */
 export default class Cards extends React.Component {
@@ -304,6 +255,7 @@ export default class Cards extends React.Component {
     super(...arguments);
     this.state = {
         columnCount: 3,
+        stories: [],
     };
     this.detectColumns = () => {
         const width = window.innerWidth;
@@ -346,19 +298,25 @@ componentWillUnmount() {
 }
   render() {
     const columns = this.columnIndexes();
-
     return (
-      <CardsWrapper innerRef={this.detectColumns}>
-        {columns.map((cardKeys, colIndex) => (
-          /* eslint-disable react/no-array-index-key */
-          <CardColumn key={colIndex}>
-            {cardKeys.map((cardIndex, index) => {
-              const props = cards[cardIndex];
-              return <Card index={index} key={props.title} {...props} />;
-            })}
-          </CardColumn>
-        ))}
-      </CardsWrapper>
+      <StoryProvider>
+        <CardsWrapper innerRef={this.detectColumns}>
+          {columns.map((storyKeys, colIndex) => (
+            /* eslint-disable react/no-array-index-key */
+            <CardColumn key={colIndex}>
+              {storyKeys.map((storyIndex, index) => {
+                const { data } = this.props;
+                const props = data[storyIndex];
+                //console.log(props);
+                if (props) {
+                  return <Card index={index} key={props.title} {...props} />;
+                }
+                return null
+              })}
+            </CardColumn>
+          ))}
+        </CardsWrapper>
+      </StoryProvider>
     );
   }
 }

@@ -2,9 +2,9 @@
 
 const Dialogflow = require("dialogflow");
 const Pusher = require("pusher");
-const NewsAPI = require('newsapi');
-const dlv = require('dlv');
-const newsapi = new NewsAPI('39347bcc775544f192bcc6b369fe8ec6');
+const NewsAPI = require("newsapi");
+const dlv = require("dlv");
+const newsapi = new NewsAPI("39347bcc775544f192bcc6b369fe8ec6");
 
 const projectId = "harold-ctogdt";
 const sessionId = "123456";
@@ -28,21 +28,21 @@ const pusher = new Pusher({
 const sessionClient = new Dialogflow.SessionsClient(config);
 
 // use data from intent to  fetch news
-const fetchNews = function (intentData) {
-  const category = 'technology';
-  const country = 'us';
-  const q = dlv(intentData, 'keyword.stringValue');
+const fetchNews = function(intentData) {
+  const category = "technology";
+  const country = "us";
+  const q = dlv(intentData, "keyword.stringValue");
 
-  return newsapi.v2.topHeadlines({
-    category,
-    language: 'en',
-    country,
+  return newsapi.v2.everything({
+    sortBy: 'relevancy',
+    page: 2,
+    language: "en",
     q
-  })
-}
+  });
+};
 
 const processMessage = (sessionId, message) => {
-  console.log("mprocessMessage called", projectId, sessionId)
+  console.log("mprocessMessage called", projectId, sessionId);
 
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
@@ -60,22 +60,35 @@ const processMessage = (sessionId, message) => {
     .detectIntent(request)
     .then(responses => {
       const result = responses[0].queryResult;
-      const intentData = dlv(responses[0], 'queryResult.parameters.fields')
-      if (result && result.intent && result.intent.displayName == "news.search") {
+      const intentData = dlv(responses[0], "queryResult.parameters.fields");
+      if (
+        result &&
+        result.intent &&
+        result.intent.displayName == "news.search"
+      ) {
         fetchNews(intentData)
-          .then(news => news.articles)
-          .then(articles = pusher.trigger('bot', 'bot-response', {
-            news: articles.splice(0, 6),
-            message: result.fulfillmentText,
-            sessionId: sessionId
-          })) 
+          .then(news => {
+            if (news.articles.length > 8) {
+              return news.articles.slice(0,7);
+            }
+            return news.articles;
+          })
+          .then(articles => {
+            console.log(articles);
+            pusher.trigger("bot", "bot-response", {
+              news: articles,
+              message: result.fulfillmentText,
+              sessionId: sessionId
+            });
+          }
+          );
       } else {
         pusher.trigger("bot", "bot-response", {
           message: result.fulfillmentText,
           sessionId: sessionId
         });
       }
-      return res.sendStatus(200)
+      //return res.sendStatus(200);
     })
     .catch(err => {
       console.error("ERROR:", err);

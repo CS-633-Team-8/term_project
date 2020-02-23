@@ -6,3 +6,8 @@
   border-radius: 2px;
   border-width: 2px;
 }
+
+.message-list-container img {
+  height: 1.5em;
+  width: auto;
+}
