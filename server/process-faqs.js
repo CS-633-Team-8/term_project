@@ -15,9 +15,9 @@ async function getFAQSAsJSON() {
   const fileName = `temp${now}`;
 
   try {
-    //const kbs = await knowledgeBases.listKnowledgeBases(projectId);
+    const kbs = await knowledgeBases.listKnowledgeBases(projectId);
     //console.log("1", kbs);
-    const docs = await knowledgeBases.listDocuments(projectId, knowledgeBaseId);
+    const docs = await knowledgeBases.listDocuments(projectId, kbs);
     //console.log("2", docs);
     const url = await knowledgeBases.getDocumentURL(docs[0].name);
     //console.log("3", url);
@@ -61,15 +61,18 @@ async function replaceFAQs(array) {
               mimeType: "text/csv"
             }
           };
-          client.listDocuments({ parent: knowledgeBaseId }).then(doc => {
-            console.log("list documents", doc[0][0].name);
-            client.deleteDocument({ name: doc[0][0].name }).then(res => {
-              console.log("delete doc resp: ", resp);
-              client.createDocument(request).then(response => {
-                console.log("createDoc Responce: ", response);
+          client.listKnowledgeBases(projectId).then(kbs => {
+            client.listDocuments({ parent: kbs[0].name }).then(doc => {
+              console.log("list documents", doc[0][0].name);
+              client.deleteDocument({ name: doc[0][0].name }).then(res => {
+                console.log("delete doc resp: ", resp);
+                client.createDocument(request).then(response => {
+                  console.log("createDoc Responce: ", response);
+                });
               });
             });
-          });
+          })
+          
         })
         .catch(err => console.error(err));
     });
