@@ -4,13 +4,15 @@ import Textfield from "@atlaskit/textfield";
 import AnimateHeight from "../../modules/AnimateHeight";
 import Pusher from "pusher-js";
 import moment from "moment";
+import initial from 'lodash.initial';
 import "./ChatWindow.css";
 import '../../constants'
 import { API_PATH } from "../../constants";
+import gifbubble from '../../images/typing-animation.gif';
 
 const MY_USER_ID = "apple";
 
-let apiPath = API_PATH
+let apiPath = `${API_PATH}/chat`
 
 if (process.env.NODE_ENV !== 'production') {
   apiPath = 'http://localhost:5000/chat'
@@ -32,6 +34,7 @@ export default class ChatInterface extends Component {
       userMessage: '',
       messages: [],
       isOpen: false,
+      firstCall: true,
     };
   }
 
@@ -50,8 +53,13 @@ export default class ChatInterface extends Component {
           author: 'ai',
         };
         this.setState({
-          messages: [...this.state.messages, msg],
+          messages: [...initial(this.state.messages), msg],
         });
+        if (data.news) {
+          this.props.sendCardData(data.news);
+        } else {
+          this.props.sendCardData(null);
+        }
       }
     });
   }
@@ -69,10 +77,16 @@ export default class ChatInterface extends Component {
       author: MY_USER_ID,
     };
 
-    this.setState({
-      messages: [...this.state.messages, msg],
-    });
+    const bubbleMsg = {
+      message: <img src={gifbubble} alt="Typing Animation" />,
+      author: "none",
+      type: "bubble-placeholder"
+    }
 
+    this.setState({
+      messages: [...this.state.messages, msg, bubbleMsg],
+    });
+    console.log(this.state.userMessage);
     fetch(apiPath, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -82,11 +96,25 @@ export default class ChatInterface extends Component {
       }),
     });
 
-    this.setState({ userMessage: '' });
+    this.setState({ 
+      userMessage: '' 
+    });
   };
 
   setOpen = () => {
     this.setState({ isOpen: true });
+    if (this.state.firstCall) {
+      fetch(apiPath, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: "initial1111",
+          sessionId: sessionID,
+        }),
+      });
+      this.setState({firstCall: false});
+    }
+    
   }
 
   render() {
@@ -153,7 +181,6 @@ export default class ChatInterface extends Component {
         // Proceed to the next message.
         i += 1;
       }
-      console.log('temp, ', tempMessages)
       return tempMessages;
     };
 
@@ -169,7 +196,7 @@ export default class ChatInterface extends Component {
           <Textfield
             onClick={this.setOpen}
             value={this.state.userMessage}
-            onInput={this.handleChange}
+            onChange={this.handleChange}
             name="placeholder"
             placeholder="Start chatting to Harold..."
           />
