@@ -55,10 +55,11 @@ const processMessage = (sessionId, message) => {
       }
     }
   };
-
+  console.log(request);
   sessionClient
-    .detectIntent(request)
+    .detectIntent("test1: ",request)
     .then(responses => {
+      console.log("test2: ",responses);
       const result = responses[0].queryResult;
       const intentData = dlv(responses[0], "queryResult.parameters.fields");
       if (
