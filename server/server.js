@@ -7,8 +7,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const processMessage = require('./process-message');
 const processFAQS = require('./process-faqs');
-const json = require('./gcpconfig.json');
-console.log(json)
 
 const app = express();
 
