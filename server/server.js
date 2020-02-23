@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const processMessage = require('./process-message');
 const processFAQS = require('./process-faqs');
+const json = require('./gcpconfig.json');
+console.log(json)
 
 const app = express();
 
@@ -20,7 +22,7 @@ app.get('/faqs', (req, res) => {
 
   const secretHeader = req.header('secretID');
   //console.log(secretHeader);
-  console.log(require('./gcpconfig.json'))
+  
   if (secretHeader === process.env.OUR_LITTLE_SECRET) {
     processFAQS.getFAQSAsJSON().then(json => 
       res.json(json)
