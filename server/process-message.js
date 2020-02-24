@@ -42,7 +42,7 @@ const fetchNews = function(intentData) {
 };
 
 const processMessage = (sessionId, message) => {
-  console.log("mprocessMessage called", projectId, sessionId);
+  console.log("mprocessMessage called", projectId, sessionId, message, languageCode);
 
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
@@ -57,7 +57,7 @@ const processMessage = (sessionId, message) => {
   };
   console.log("test0.1: ",request);
   sessionClient
-    .detectIntent("test1: ",request)
+    .detectIntent(request)
     .then(responses => {
       console.log("test2: ",responses);
       const result = responses[0].queryResult;
