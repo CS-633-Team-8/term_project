@@ -18,10 +18,10 @@ const config = {
 };
 
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER,
+  appId: "941286",
+  key: "3779809c82eb69c59f34",
+  secret: "d95e4894287d9b216d1f",
+  cluster: "us3",
   encrypted: true
 });
 
