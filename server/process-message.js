@@ -55,7 +55,7 @@ const processMessage = (sessionId, message) => {
       }
     }
   };
-  console.log(request);
+  console.log("test0.1: ",request);
   sessionClient
     .detectIntent("test1: ",request)
     .then(responses => {
