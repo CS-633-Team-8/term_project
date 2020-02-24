@@ -17,7 +17,7 @@ const config = {
   }
 };
 
-console.log("creds", credentials)
+console.log("creds", config)
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
