@@ -89,9 +89,8 @@ export default function Login(props) {
     >
     <h3>You are trying to view a protected page. Please log in</h3>
     <Form ref={formRef} onSubmit={e => {
-        e.preventDefault()
-        const email = e.target.username.value
-        const password = e.target.password.value
+        const email = e.username
+        const password = e.password
         load(loginUser(email, password))
           .then(user => {
             console.log("Success! Logged in", user)
