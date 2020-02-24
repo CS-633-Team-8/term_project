@@ -54,7 +54,8 @@ const processMessage = (sessionId, message) => {
   kbPath.listKnowledgeBases({
     parent: formattedParent,
   }).then(r => {
-
+    s = [];
+    if (r[0][0].name) { s = [r[0][0].name]}
   const request = {
     session: sessionPath,
     queryInput: {
@@ -64,7 +65,7 @@ const processMessage = (sessionId, message) => {
       }
     },
     queryParams: {
-      knowledgeBaseNames: r[0]
+      knowledgeBaseNames: s
     }
   };
   console.log("test0.1: ",request);
