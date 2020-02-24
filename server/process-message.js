@@ -84,6 +84,7 @@ const processMessage = (sessionId, message) => {
           }
           );
       } else {
+        console.log("test3", result.fulfillmentText)
         pusher.trigger("bot", "bot-response", {
           message: result.fulfillmentText,
           sessionId: sessionId
