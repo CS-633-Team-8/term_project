@@ -1,6 +1,6 @@
 // process-message.js
 
-const Dialogflow = require("dialogflow");
+const Dialogflow = require("dialogflow").v2beta1;
 const Pusher = require("pusher");
 const NewsAPI = require("newsapi");
 const dlv = require("dlv");
@@ -27,6 +27,10 @@ const pusher = new Pusher({
 });
 
 const sessionClient = new Dialogflow.SessionsClient(config);
+const kbPath = new Dialogflow.KnowledgeBasesClient({
+  projectPath: projectId,
+});
+const formattedParent = kbPath.projectPath(projectId);
 
 // use data from intent to  fetch news
 const fetchNews = function(intentData) {
@@ -47,6 +51,10 @@ const processMessage = (sessionId, message) => {
 
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
+  kbPath.listKnowledgeBases({
+    parent: formattedParent,
+  }).then(r => {
+
   const request = {
     session: sessionPath,
     queryInput: {
@@ -54,6 +62,9 @@ const processMessage = (sessionId, message) => {
         text: message,
         languageCode
       }
+    },
+    queryParams: {
+      knowledgeBaseNames: r[0]
     }
   };
   console.log("test0.1: ",request);
@@ -93,7 +104,7 @@ const processMessage = (sessionId, message) => {
       }
       //return res.sendStatus(200);
     })
-    .catch(err => {
+  }).catch(err => {
       console.error("ERROR:", err);
     });
 };
