@@ -16,6 +16,18 @@ Begin by cloning the repository into a local folder of your choice:
 `git clone https://github.com/CS-633-Team-8/term_project.git`  
 `cd /term_project` # change to project folder
 
+# API Authentication
+
+In order to access the required APIs, development keys are required for for [Pusher](https://github.com/pusher/pusher-js) and [Dialogflow](https://cloud.google.com/dialogflow). For the Ask Harold dev team these are available from sjhogg@gmail.com. For others running this project, you need to provide a .env file with:  
+ 
+Pusher
+`appId: 'APP_ID',  
+  key: 'APP_KEY',  
+  secret: 'APP_SECRET',  
+  cluster: 'APP_CLUSTER',`  
+  
+For dialogflow you must authorise a google servce account. Fo more info: [Google IAM Docs](https://cloud.google.com/iam/docs/granting-roles-to-service-accounts?_ga=2.135903921.-1091372105.1579788086)
+
 ## Start the Server
 
 `cd /server` # change to server folder  
