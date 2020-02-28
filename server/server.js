@@ -21,7 +21,7 @@ app.get('/faqs', (req, res) => {
   const secretHeader = req.header('secretID');
   //console.log(secretHeader);
   
-  if (secretHeader === process.env.OUR_LITTLE_SECRET) {
+  if (secretHeader === 'ilovecs633') {
     processFAQS.getFAQSAsJSON().then(json => 
       res.json(json)
       );
