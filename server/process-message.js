@@ -40,7 +40,7 @@ const fetchNews = function(intentData) {
 };
 
 const processMessage = (sessionId, message) => {
-  console.log("mprocessMessage called", process.env.GCLOUD_PROJECT, sessionId, message, languageCode);
+  //console.log("mprocessMessage called", process.env.GCLOUD_PROJECT, sessionId, message, languageCode);
 
   const sessionPath = sessionClient.sessionPath(process.env.GCLOUD_PROJECT, sessionId);
 
@@ -61,11 +61,11 @@ const processMessage = (sessionId, message) => {
       knowledgeBaseNames: s
     }
   };
-  console.log("test0.1: ",request);
+  //console.log("test0.1: ",request);
   sessionClient
     .detectIntent(request)
     .then(responses => {
-      console.log("test2: ",responses);
+      //console.log("test2: ",responses);
       const result = responses[0].queryResult;
       const intentData = dlv(responses[0], "queryResult.parameters.fields");
       if (
@@ -90,7 +90,7 @@ const processMessage = (sessionId, message) => {
           }
           );
       } else {
-        console.log("test3", result.fulfillmentText)
+        //console.log("test3", result.fulfillmentText)
         pusher.trigger("bot", "bot-response", {
           message: result.fulfillmentText,
           sessionId: sessionId
