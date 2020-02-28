@@ -9,6 +9,7 @@ import "./ChatWindow.css";
 import '../../constants'
 import { API_PATH } from "../../constants";
 import gifbubble from '../../images/typing-animation.gif';
+import { animateScroll } from "react-scroll";
 
 const MY_USER_ID = "apple";
 
@@ -30,6 +31,7 @@ const sessionID = ID()
 export default class ChatInterface extends Component {
   constructor(props) {
     super(props);
+    this.chatRef = React.createRef();
     this.state = {
       userMessage: '',
       messages: [],
@@ -44,6 +46,8 @@ export default class ChatInterface extends Component {
       encrypted: true,
     });
 
+    //const objDiv = document.getElementById('chat');
+
     const channel = pusher.subscribe('bot');
     channel.bind('bot-response', data => {
       console.log("responce from pusher", data)
@@ -52,14 +56,23 @@ export default class ChatInterface extends Component {
           message: data.message,
           author: 'ai',
         };
-        this.setState({
-          messages: [...initial(this.state.messages), msg],
-        });
+        // this.setState({
+        //   messages: [...initial(this.state.messages), msg],
+        // });
         if (data.news) {
+          if (data.news.length === 0){ // Harold found news articles
+            msg.message = "That's strange, I cant find any news about that."
+          }
           this.props.sendCardData(data.news);
         } else {
           this.props.sendCardData(null);
         }
+        this.setState({
+          messages: [...initial(this.state.messages), msg],
+        });
+        animateScroll.scrollToBottom({
+          containerId: "chat"
+        });
       }
     });
   }
@@ -104,6 +117,17 @@ export default class ChatInterface extends Component {
   setOpen = () => {
     this.setState({ isOpen: true });
     if (this.state.firstCall) {
+      const bubbleMsg = {
+        message: <img src={gifbubble} alt="Typing Animation" />,
+        author: "none",
+        type: "bubble-placeholder"
+      }
+
+      this.setState({
+        messages: [...this.state.messages, bubbleMsg],
+        firstCall: false,
+      });
+
       fetch(apiPath, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -112,7 +136,6 @@ export default class ChatInterface extends Component {
           sessionId: sessionID,
         }),
       });
-      this.setState({firstCall: false});
     }
     
   }
@@ -187,7 +210,7 @@ export default class ChatInterface extends Component {
     return (
       <div className="message-list">
         <AnimateHeight variants={this.variants} isVisible={this.state.isOpen}>
-          <div style={{ height: 270 }} className="message-list-container">
+          <div style={{ height: 270 }} id="chat" className="message-list-container">
             {renderMessages()}
           </div>
         </AnimateHeight>

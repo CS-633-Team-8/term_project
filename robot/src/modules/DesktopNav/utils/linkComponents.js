@@ -11,8 +11,8 @@ const SubNavWrapper = styled.div `
 export function isSubNavExpanded(to, pathname) {
     const lastSeg = to.split('/').pop();
     return (pathname.startsWith(to) &&
-        (!!pathname.match(new RegExp(`\/${lastSeg}\/`)) ||
-            !!pathname.match(new RegExp(`\/${lastSeg}$`))));
+        (!!pathname.match(new RegExp(`/${lastSeg}/`)) ||
+            !!pathname.match(new RegExp(`/${lastSeg}$`))));
 }
 const RouterLink = ({ children, href, replace, className, subNav, onClick, pathname, }) => {
     return (<div key={pathname}>
