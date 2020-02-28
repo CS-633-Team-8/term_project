@@ -14,4 +14,6 @@ jobs:
             - name: Installing dependencies
               run: yarn install --frozen-lockfile
             - name: Running tests
+              run: cd robot
+            - name: Running tests
               run: yarn test
