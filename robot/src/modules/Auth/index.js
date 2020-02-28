@@ -1,6 +1,12 @@
 // src/Auth/Auth.js
 import auth0 from 'auth0-js';
 
+let authRedirect = 'http://localhost:3000/callback';
+
+if (process.env.NODE_ENV !== 'production') {
+  authRedirect = 'http://localhost:3000/callback'
+}
+
 export default class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
@@ -8,7 +14,7 @@ export default class Auth {
       domain: 'askharold.auth0.com',
       audience: 'https://askharold.auth0.com/userinfo',
       clientID: 'ZvBfdWfXHMXGz0F4B1QsMGmay90arVZF',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: authRedirect,
       responseType: 'token id_token',
       scope: 'openid profile'
     });

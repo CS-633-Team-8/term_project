@@ -10,7 +10,7 @@ export function Nav({ closeNav, }) {
     return (<Navigation isResizeable={false} globalPrimaryItemHref={'/'} globalPrimaryIcon={<Tooltip content="Home" position="right">
           <HaroldIcon />
         </Tooltip>} containerHeaderComponent={() => (<AkContainerTitle icon={<HaroldIcon monochrome/>} text={'Harold the Chatbot'} href={'/'}/>)}>
-      <a href="https://github.com/CS-633-Team-8/term_project" target="_blank">Project Repository</a>
+      <a href="https://github.com/CS-633-Team-8/term_project" rel="noopener noreferrer" target="_blank">Project Repository</a>
     </Navigation>);
 }
 export default function MobileNav({ props }) {
