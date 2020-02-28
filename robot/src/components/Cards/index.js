@@ -1,20 +1,10 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-//import { Link } from '../../components/WrappedLink';
 import { gridSize, colors } from '@atlaskit/theme';
 import debounce from 'lodash.debounce';
-
-//import { AtlassianIcon } from '@atlaskit/logo';
-import BlogIcon from '@atlaskit/icon/glyph/component';
 import CodeIcon from '@atlaskit/icon/glyph/code';
-import DocumentIcon from '@atlaskit/icon/glyph/document-filled';
 import DiscoverIcon from '@atlaskit/icon/glyph/discover';
-
 import { StoryProvider } from '../../modules/Context/story-context'
-
-// import rocket from '../../assets/Rocket.png';
-// import platform from '../../assets/Platform.png';
-// import multiTool from '../../assets/multiTool.png';
 
 import {
   MOBILE_BREAKPOINT_MAX,
@@ -146,6 +136,7 @@ const BaseCardStyles = css`
     0.5 + 0.03 * (index || 0)}s;
   background-size: contain;
   background-position: bottom;
+  text-decoration: none;
 `;
 
 const InternalCard = styled('a')`
@@ -174,41 +165,9 @@ const Img = (src, alt = '') => (
   />
 );
 
-// export type CardProps = {
-//   icon: React.ComponentType;
-//   index?: number;
-//   text: string;
-//   title: string;
-//   image?: string;
-//   alt?: string;
-//   to: string;
-//   href?: string;
-// };
-
-// class Card extends React.Component {
-//   render() {
-//     const { icon: Icon, text, title, image, alt, ...props } = this.props;
-
-//     const LinkComponent = props.href ? ExternalCard : InternalCard;
-
-//     return (
-//       <LinkComponent {...props}>
-//         <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
-//           <TitleRow>
-//             <Icon />
-//             {title}
-//           </TitleRow>
-//           {text ? <p>{text}</p> : null}
-//         </div>
-//         {image ? <Img src={image} alt={alt} /> : null}
-//       </LinkComponent>
-//     );
-//   }
-// }
-
 class Card extends React.Component {
   render() {
-    const { source, content, title, urlToImage, descrition, author, ...props} = this.props;
+    const { source, content, title, urlToImage, descrition, author, url, ...props} = this.props;
 
     const LinkComponent = urlToImage ? ExternalCard : InternalCard;
 
@@ -235,7 +194,7 @@ class Card extends React.Component {
     }
     console.log(urlToImage)
     return (
-      <LinkComponent {...props}>
+      <LinkComponent target="_blank" href={url} {...props}>
         <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
           <TitleRow>
             {<Icon />}

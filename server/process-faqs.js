@@ -51,27 +51,33 @@ async function replaceFAQs(array) {
           const client = new dialogflow.DocumentsClient({
             projectId: projectId
           });
-          const request = {
-            parent: knowledgeBaseId,
-            document: {
-              knowledgeTypes: ["FAQ"],
-              displayName: now,
-              contentUri: filePath,
-              source: `contentUri`,
-              mimeType: "text/csv"
-            }
-          };
-          client.listKnowledgeBases(projectId).then(kbs => {
-            client.listDocuments({ parent: kbs[0].name }).then(doc => {
+          const kbClient = new dialogflow.KnowledgeBasesClient({projectId: projectId})
+          
+          let knowledgeBaseName;
+
+          kbClient.listKnowledgeBases({parent: `projects/${projectId}`}).then(kbs => {
+            knowledgeBaseName = kbs[0][0].name
+            console.log(knowledgeBaseName);
+            client.listDocuments({ parent: knowledgeBaseName }).then(doc => {
               console.log("list documents", doc[0][0].name);
               client.deleteDocument({ name: doc[0][0].name }).then(res => {
                 console.log("delete doc resp: ", resp);
+                const request = {
+                  parent: knowledgeBaseName,
+                  document: {
+                    knowledgeTypes: ["FAQ"],
+                    displayName: now,
+                    contentUri: filePath,
+                    source: `contentUri`,
+                    mimeType: "text/csv"
+                  }
+                };
                 client.createDocument(request).then(response => {
                   console.log("createDoc Responce: ", response);
-                });
-              });
-            });
-          })
+                }).catch(err=> console.log("create Document Error", err));
+              }).catch(err=> console.log("delete Document Error", err));
+            }).catch(err=> console.log("list Documents Error", err));
+          }).catch(err => console.log("list KnowledgeBases Error", err))
           
         })
         .catch(err => console.error(err));

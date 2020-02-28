@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import TextField from '@atlaskit/textfield';
 import TextArea from '@atlaskit/textarea';
 import Button, { ButtonGroup } from '@atlaskit/button';
-//import { Checkbox } from '@atlaskit/checkbox';
 import Form, { Field, FormFooter, HelperMessage, ErrorMessage, ValidMessage, } from '@atlaskit/form';
 export default (props) => (<div style={{
     display: 'flex',

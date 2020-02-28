@@ -69,7 +69,7 @@ class LoginAuto extends React.Component {
 }
 
 export default function Login(props) {
-  const { loginUser } = props;
+  const { login } = props;
   const formRef = React.useRef()
   const [msg, setMsg] = React.useState("")
   const [isLoading, load] = useLoading()
@@ -91,7 +91,7 @@ export default function Login(props) {
     <Form ref={formRef} onSubmit={e => {
         const email = e.username
         const password = e.password
-        load(loginUser(email, password))
+        load(login(email, password))
           .then(user => {
             console.log("Success! Logged in", user)
           })
