@@ -14,7 +14,6 @@ const Dialogflow = require("dialogflow").v2beta1;
 const Pusher = require("pusher");
 const NewsAPI = require("newsapi");
 const dlv = require("dlv");
-let newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 
 /////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -31,6 +30,8 @@ let pusher = new Pusher({
   cluster: "us3",
   encrypted: true
 });
+
+let newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 
 const sessionClient = new Dialogflow.SessionsClient();
 let kbPath = new Dialogflow.KnowledgeBasesClient({
