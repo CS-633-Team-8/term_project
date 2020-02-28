@@ -1,7 +1,7 @@
 // src/Auth/Auth.js
 import auth0 from 'auth0-js';
 
-let authRedirect = 'http://localhost:3000/callback';
+let authRedirect = 'https://askharold.netlify.com/callback';
 
 if (process.env.NODE_ENV !== 'production') {
   authRedirect = 'http://localhost:3000/callback'
