@@ -12,8 +12,8 @@ jobs:
               with:
                   node-version: 10.15.0
             - name: Installing dependencies
+              working-directory: ./robot
               run: yarn install --frozen-lockfile
+            - name: Running test
               working-directory: ./robot
-            - name: Running tests
               run: yarn test
-              working-directory: ./robot
