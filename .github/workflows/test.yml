@@ -11,9 +11,9 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: 10.15.0
+            - name: Move to directory
+              run: cd robot
             - name: Installing dependencies
               run: yarn install --frozen-lockfile
-            - name: Running tests
-              run: cd robot
             - name: Running tests
               run: yarn test
