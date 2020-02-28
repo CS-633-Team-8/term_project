@@ -4,26 +4,26 @@ const Dialogflow = require("dialogflow").v2beta1;
 const Pusher = require("pusher");
 const NewsAPI = require("newsapi");
 const dlv = require("dlv");
-const newsapi = new NewsAPI("39347bcc775544f192bcc6b369fe8ec6");
+let newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 
 const projectId = "harold-ctogdt";
 const sessionId = "123456";
 const languageCode = "en-US";
 
 
-const pusher = new Pusher({
-  appId: "941286",
-  key: "3779809c82eb69c59f34",
-  secret: "d95e4894287d9b216d1f",
+let pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
   cluster: "us3",
   encrypted: true
 });
 
 const sessionClient = new Dialogflow.SessionsClient();
-const kbPath = new Dialogflow.KnowledgeBasesClient({
-  projectPath: projectId,
+let kbPath = new Dialogflow.KnowledgeBasesClient({
+  projectPath: process.env.GCLOUD_PROJECT,
 });
-const formattedParent = kbPath.projectPath(projectId);
+let formattedParent = kbPath.projectPath(process.env.GCLOUD_PROJECT);
 
 // use data from intent to  fetch news
 const fetchNews = function(intentData) {
@@ -40,9 +40,9 @@ const fetchNews = function(intentData) {
 };
 
 const processMessage = (sessionId, message) => {
-  console.log("mprocessMessage called", projectId, sessionId, message, languageCode);
+  console.log("mprocessMessage called", process.env.GCLOUD_PROJECT, sessionId, message, languageCode);
 
-  const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  const sessionPath = sessionClient.sessionPath(process.env.GCLOUD_PROJECT, sessionId);
 
   kbPath.listKnowledgeBases({
     parent: formattedParent,
