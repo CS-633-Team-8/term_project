@@ -1,19 +1,19 @@
-name: Test
-on: pull_request
+name: Test Package
+
+on: [push]
+
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v1
-              with:
-                  fetch-depth: 1
-            - name: Setup Node.js
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 10.15.0
-            - name: Installing dependencies
-              working-directory: ./robot
-              run: yarn install --frozen-lockfile
-            - name: Running test
-              working-directory: ./robot
-              run: yarn test
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run
+        working-directory: ./robot
+        run: yarn
+        
+      - name: Test
+        working-directory: ./robot
+        run: yarn test
