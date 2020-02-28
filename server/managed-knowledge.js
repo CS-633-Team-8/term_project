@@ -1,13 +1,13 @@
 'use strict';
 
-const projectId = process.env.GCLOUD_PROJECT;
-const knowledgeBaseId = process.env.KNOWLEDGE_BASE_ID;
+let projectId = process.env.GCLOUD_PROJECT;
+let knowledgeBaseId = process.env.KNOWLEDGE_BASE_ID;
 
 const {struct} = require('pb-util');
 const sessionId = require('uuid/v1')();
 const util = require('util');
 
-const config = {
+let config = {
   credentials: {
     private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
@@ -20,6 +20,7 @@ async function createKnowledgeBase(projectId, displayName) {
   const dialogflow = require('dialogflow').v2beta1;
 
   // Instantiate a DialogFlow client.
+  //const client = new dialogflow.KnowledgeBasesClient(config);
   const client = new dialogflow.KnowledgeBasesClient(config);
 
   /**
