@@ -1,13 +1,13 @@
 'use strict';
 
-const projectId = process.env.GCLOUD_PROJECT;
-const knowledgeBaseId = process.env.KNOWLEDGE_BASE_ID;
+let projectId = process.env.GCLOUD_PROJECT;
+let knowledgeBaseId = process.env.KNOWLEDGE_BASE_ID;
 
 const {struct} = require('pb-util');
 const sessionId = require('uuid/v1')();
 const util = require('util');
 
-const config = {
+let config = {
   credentials: {
     private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL
@@ -20,6 +20,7 @@ async function createKnowledgeBase(projectId, displayName) {
   const dialogflow = require('dialogflow').v2beta1;
 
   // Instantiate a DialogFlow client.
+  //const client = new dialogflow.KnowledgeBasesClient(config);
   const client = new dialogflow.KnowledgeBasesClient(config);
 
   /**
@@ -63,8 +64,7 @@ async function getKnowledgeBase(projectId, knowledgeBaseId) {
   const formattedName = client.knowledgeBasePath(projectId, knowledgeBaseId);
 
   const [result] = await client.getKnowledgeBase({name: formattedName});
-  console.log(`displayName: ${result.displayName}`);
-  console.log(`name: ${result.name}`);
+  console.log(`Server retrieved KnowledgeBase: ${result.displayName}`);
   // [END dialogflow_get_knowledge_base]
 }
 
@@ -160,12 +160,6 @@ async function createDocument(
 
   const [operation] = await client.createDocument(request);
   const [response] = await operation.promise();
-  console.log(`Document created`);
-  console.log(`Content URI...${response.contentUri}`);
-  console.log(`displayName...${response.displayName}`);
-  console.log(`mimeType...${response.mimeType}`);
-  console.log(`name...${response.name}`);
-  console.log(`source...${response.source}`);
   return response;
 
   // [END dialogflow_create_document]
@@ -222,12 +216,6 @@ async function getDocument(documentId) {
   // const documentId = `full path to document in knowledge base, e.g. myKnowledgeBase/documents/myDoc`;
 
   const [r] = await client.getDocument({name: documentId});
-  console.log(` KnowledgeType: ${r.knowledgeType}`);
-  console.log(` displayName: ${r.displayName}`);
-  console.log(` mimeType: ${r.mimeType}`);
-  console.log(` contentUri: ${r.contentUri}`);
-  console.log(` source: ${r.source}`);
-  console.log(` name: ${r.name}`);
 
   return r;
   // [END dialogflow_get_document]

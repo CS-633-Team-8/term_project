@@ -1,6 +1,6 @@
 name: Test Package
 
-on: [push]
+on: [pull_request]
 
 jobs:
   test:
@@ -16,4 +16,4 @@ jobs:
         
       - name: Test
         working-directory: ./robot
-        run: yarn test
+        run: npm test --watchAll=false
