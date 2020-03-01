@@ -155,12 +155,6 @@ const processMessage = (sessionId, message) => {
                 message: result.fulfillmentText,
                 sessionId: sessionId
               })
-              .catch(err => {
-                console.error(
-                  "Error from pusher trigger bot in process-message: ",
-                  err
-                );
-              });
           }
           //return res.sendStatus(200);
         });
