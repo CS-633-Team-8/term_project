@@ -4,3 +4,5 @@ npm-debug.log
 .env
 .DS_Store
 .json
+server/DO_NOT_COMMI.json
+server/variables.env
