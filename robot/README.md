@@ -23,9 +23,9 @@ yarn install  # install dependencies
 yarn start  # start the project
 ```
 
-Alternatively if you would like to work online, sign up for GitPod and use: 
+# Server hosting location
 
-https://gitpod.io/#https://github.com/CS-633-Team-8/term_project.git
+See ./src/constants.js to edit server location (Node development mode sets localhost:5000 automatically)
 
 ## Tests
 
