@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import MainSection from '../components/MainSection';
-import ContentWrapper from '../components/ContentWrapper';
-import PageTitle from '../components/PageTitle';
+import React, { Component } from "react"
+import MainSection from "../components/MainSection"
+import ContentWrapper from "../components/ContentWrapper"
+import PageTitle from "../components/PageTitle"
 
 export default class HomePage extends Component {
   render() {
@@ -10,6 +10,6 @@ export default class HomePage extends Component {
         <PageTitle>Settings</PageTitle>
         <MainSection />
       </ContentWrapper>
-    );
+    )
   }
 }

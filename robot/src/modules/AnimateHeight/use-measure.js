@@ -1,32 +1,32 @@
-import ResizeObserver from "resize-observer-polyfill";
-import { useCallbackRef } from "./use-callback-ref.js";
-import { useState, useEffect } from "react";
+import ResizeObserver from "resize-observer-polyfill"
+import { useState, useEffect } from "react"
+import { useCallbackRef } from "./use-callback-ref.js"
 
 export function useMeasure(ref) {
-  const [element, attachRef] = useCallbackRef();
-  const [bounds, setBounds] = useState({});
+  const [element, attachRef] = useCallbackRef()
+  const [bounds, setBounds] = useState({})
 
   useEffect(() => {
     function onResize([entry]) {
       setBounds({
         height: entry.contentRect.height
-      });
+      })
     }
 
-    const observer = new ResizeObserver(onResize);
+    const observer = new ResizeObserver(onResize)
 
     if (element && element.current) {
-      observer.observe(element.current);
+      observer.observe(element.current)
     }
 
     return () => {
-      observer.disconnect();
-    };
-  }, [element]);
+      observer.disconnect()
+    }
+  }, [element])
 
   useEffect(() => {
-    attachRef(ref);
-  }, [attachRef, ref]);
+    attachRef(ref)
+  }, [attachRef, ref])
 
-  return bounds;
+  return bounds
 }

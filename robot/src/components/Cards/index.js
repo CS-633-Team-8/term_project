@@ -1,16 +1,16 @@
-import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
-import { gridSize, colors } from '@atlaskit/theme';
-import debounce from 'lodash.debounce';
-import CodeIcon from '@atlaskit/icon/glyph/code';
-import DiscoverIcon from '@atlaskit/icon/glyph/discover';
-import { StoryProvider } from '../../modules/Context/story-context'
+import React from "react"
+import styled, { keyframes, css } from "styled-components"
+import { gridSize, colors } from "@atlaskit/theme"
+import debounce from "lodash.debounce"
+import CodeIcon from "@atlaskit/icon/glyph/code"
+import DiscoverIcon from "@atlaskit/icon/glyph/discover"
+import { StoryProvider } from "../../modules/Context/story-context"
 
 import {
   MOBILE_BREAKPOINT_MAX,
   TABLET_BREAKPOINT_MIN,
-  TABLET_BREAKPOINT_MAX,
-} from '../../constants';
+  TABLET_BREAKPOINT_MAX
+} from "../../constants"
 
 const CardIcon = styled.span`
   align-items: center;
@@ -22,9 +22,9 @@ const CardIcon = styled.span`
   justify-content: center;
   margin-right: 8px;
   width: 24px;
-`;
+`
 
-const cardVerticalAnimationDistance = gridSize() * 7.5;
+const cardVerticalAnimationDistance = gridSize() * 7.5
 
 const loadInAnimation = keyframes`
   0% {
@@ -38,7 +38,7 @@ const loadInAnimation = keyframes`
     top: 0;
     opacity: 1;
   }
-`;
+`
 
 export const CardsWrapper = styled.div`
   display: flex;
@@ -50,11 +50,11 @@ export const CardsWrapper = styled.div`
   @media (max-width: ${MOBILE_BREAKPOINT_MAX}px) {
     margin-top: 0;
   }
-`;
+`
 
 export const CardColumn = styled.div`
   flex: 0 0 0;
-`;
+`
 
 // const TransparentCardStyles = css`
 //   display: inline-block;
@@ -132,131 +132,143 @@ const BaseCardStyles = css`
     color: ${colors.N900};
   }
 
-  animation-delay: ${( index ) =>
-    0.5 + 0.03 * (index || 0)}s;
+  animation-delay: ${index => 0.5 + 0.03 * (index || 0)}s;
   background-size: contain;
   background-position: bottom;
   text-decoration: none;
-`;
+`
 
-const InternalCard = styled('a')`
+const InternalCard = styled("a")`
   ${BaseCardStyles};
-`;
+`
 
-const ExternalCard = styled('a')`
+const ExternalCard = styled("a")`
   ${BaseCardStyles};
-`;
+`
 
 const TitleRow = styled.div`
   display: flex;
   align-items: center;
   font-weight: 500;
-`;
+`
 
-const Img = (src, alt = '') => (
+const Img = (src, alt = "") => (
   <img
     alt={alt}
     style={{
-      margin: '0 auto 10px auto',
-      height: '200px',
-      display: 'block',
+      margin: "0 auto 10px auto",
+      height: "200px",
+      display: "block"
     }}
     src={src.src}
   />
-);
+)
 
 class Card extends React.Component {
   render() {
-    const { source, content, title, urlToImage, descrition, author, url, ...props} = this.props;
+    const {
+      source,
+      content,
+      title,
+      urlToImage,
+      descrition,
+      author,
+      url,
+      ...props
+    } = this.props
 
-    const LinkComponent = urlToImage ? ExternalCard : InternalCard;
+    const LinkComponent = urlToImage ? ExternalCard : InternalCard
 
     const Icon = () => {
       if (source) {
-        return <CardIcon color={colors.Y400}>
-          <DiscoverIcon
+        return (
+          <CardIcon color={colors.Y400}>
+            <DiscoverIcon
+              label="Project Repository"
+              primaryColor={colors.N0}
+              secondaryColor={colors.Y400}
+              size="small"
+            />
+          </CardIcon>
+        )
+      }
+      return (
+        <CardIcon color={colors.Y400}>
+          <CodeIcon
             label="Project Repository"
             primaryColor={colors.N0}
             secondaryColor={colors.Y400}
             size="small"
           />
         </CardIcon>
-      } else {
-        return <CardIcon color={colors.Y400}>
-        <CodeIcon
-          label="Project Repository"
-          primaryColor={colors.N0}
-          secondaryColor={colors.Y400}
-          size="small"
-        />
-      </CardIcon>
-      }
+      )
     }
     console.log(urlToImage)
     return (
       <LinkComponent target="_blank" href={url} {...props}>
-        <div style={{ padding: '16px 24px', marginBottom: 'auto' }}>
+        <div style={{ padding: "16px 24px", marginBottom: "auto" }}>
           <TitleRow>
             {<Icon />}
-            {source ? source.name: null}
+            {source ? source.name : null}
           </TitleRow>
           {title ? <p>{title}</p> : null}
         </div>
         {urlToImage ? <Img src={urlToImage} alt={title} /> : null}
       </LinkComponent>
-    );
+    )
   }
 }
 
 /* eslint-disable react/no-multi-comp */
 export default class Cards extends React.Component {
   constructor() {
-    super(...arguments);
+    super(...arguments)
     this.state = {
-        columnCount: 3,
-        stories: [],
-    };
-    this.detectColumns = () => {
-        const width = window.innerWidth;
-        if (width <= MOBILE_BREAKPOINT_MAX) {
-            this.setState({ columnCount: 1 });
-        }
-        else if (width <= TABLET_BREAKPOINT_MAX) {
-            this.setState({ columnCount: 2 });
-        }
-        else {
-            this.setState({ columnCount: 3 });
-        }
-    };
-    this.columnIndexes = () => {
-        const { columnCount } = this.state;
-        if (columnCount === 1) {
-            return [[0, 1, 2, 3, 4, 5]];
-        }
-        else if (columnCount === 2) {
-            return [
-                [0, 2],
-                [1, 3, 4, 5],
-            ];
-        }
-        return [
-            [0, 3],
-            [1, 4],
-            [2, 5],
-        ];
-    };
-}
-componentDidMount() {
-    this.debouncedDetect = debounce(this.detectColumns, 500);
-    window.addEventListener('resize', this.debouncedDetect);
-}
-componentWillUnmount() {
-    if (this.debouncedDetect) {
-        window.removeEventListener('resize', this.debouncedDetect);
+      columnCount: 3,
+      stories: []
     }
-}
+    this.detectColumns = () => {
+      const width = window.innerWidth
+      if (width <= MOBILE_BREAKPOINT_MAX) {
+        this.setState({ columnCount: 1 })
+      } else if (width <= TABLET_BREAKPOINT_MAX) {
+        this.setState({ columnCount: 2 })
+      } else {
+        this.setState({ columnCount: 3 })
+      }
+    }
+    this.columnIndexes = () => {
+      const { columnCount } = this.state
+      if (columnCount === 1) {
+        return [[0, 1, 2, 3, 4, 5]]
+      }
+      if (columnCount === 2) {
+        return [
+          [0, 2],
+          [1, 3, 4, 5]
+        ]
+      }
+      return [
+        [0, 3],
+        [1, 4],
+        [2, 5]
+      ]
+    }
+  }
+
+  componentDidMount() {
+    this.debouncedDetect = debounce(this.detectColumns, 500)
+    window.addEventListener("resize", this.debouncedDetect)
+  }
+
+  componentWillUnmount() {
+    if (this.debouncedDetect) {
+      window.removeEventListener("resize", this.debouncedDetect)
+    }
+  }
+
   render() {
-    const columns = this.columnIndexes();
+    const columns = this.columnIndexes()
     return (
       <StoryProvider>
         <CardsWrapper innerRef={this.detectColumns}>
@@ -264,11 +276,11 @@ componentWillUnmount() {
             /* eslint-disable react/no-array-index-key */
             <CardColumn key={colIndex}>
               {storyKeys.map((storyIndex, index) => {
-                const { data } = this.props;
-                const props = data[storyIndex];
-                //console.log(props);
+                const { data } = this.props
+                const props = data[storyIndex]
+                // console.log(props);
                 if (props) {
-                  return <Card index={index} key={props.title} {...props} />;
+                  return <Card index={index} key={props.title} {...props} />
                 }
                 return null
               })}
@@ -276,6 +288,6 @@ componentWillUnmount() {
           ))}
         </CardsWrapper>
       </StoryProvider>
-    );
+    )
   }
 }

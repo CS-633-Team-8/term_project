@@ -21,7 +21,7 @@ async function createKnowledgeBase(projectId, displayName) {
 
   // Instantiate a DialogFlow client.
   //const client = new dialogflow.KnowledgeBasesClient(config);
-  const client = new dialogflow.KnowledgeBasesClient(config);
+  const client = new dialogflow.KnowledgeBasesClient();
 
   /**
    * TODO(developer): Uncomment the following lines before running the sample.

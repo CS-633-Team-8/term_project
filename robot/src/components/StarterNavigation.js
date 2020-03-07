@@ -1,49 +1,49 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types"
+import React from "react"
+import { Link } from "react-router-dom"
 import Nav, {
   AkContainerTitle,
   AkCreateDrawer,
   AkNavigationItem,
   AkSearchDrawer
-} from "@atlaskit/navigation";
-import SearchIcon from "@atlaskit/icon/glyph/search";
-import CreateIcon from "@atlaskit/icon/glyph/add";
-import SwitcherIcon from "@atlaskit/icon/glyph/switcher";
-import ArrowleftIcon from "@atlaskit/icon/glyph/arrow-left";
-import TableIcon from "@atlaskit/icon/glyph/table";
+} from "@atlaskit/navigation"
+import SearchIcon from "@atlaskit/icon/glyph/search"
+import CreateIcon from "@atlaskit/icon/glyph/add"
+import SwitcherIcon from "@atlaskit/icon/glyph/switcher"
+import ArrowleftIcon from "@atlaskit/icon/glyph/arrow-left"
+import TableIcon from "@atlaskit/icon/glyph/table"
 
-import CreateDrawer from "../components/CreateDrawer";
-import SearchDrawer from "../components/SearchDrawer";
-import HelpDropdownMenu from "../components/HelpDropdownMenu";
-import AccountDropdownMenu from "../components/AccountDropdownMenu";
-import atlaskitLogo from "../images/atlaskit.png";
+import CreateDrawer from "../components/CreateDrawer"
+import SearchDrawer from "../components/SearchDrawer"
+import HelpDropdownMenu from "../components/HelpDropdownMenu"
+import AccountDropdownMenu from "../components/AccountDropdownMenu"
+import atlaskitLogo from "../images/atlaskit.png"
 
 export default class StarterNavigation extends React.Component {
   state = {
     navLinks: [
-      //["/", "Home", DashboardIcon],
-      //["/settings", "Settings", GearIcon],
+      // ["/", "Home", DashboardIcon],
+      // ["/settings", "Settings", GearIcon],
       ["/tables", "localhost - Test Database 1", TableIcon]
     ]
-  };
+  }
 
   static contextTypes = {
     navOpenState: PropTypes.object,
     router: PropTypes.object
-  };
+  }
 
   openDrawer = openDrawer => {
-    this.setState({ openDrawer });
-  };
+    this.setState({ openDrawer })
+  }
 
   shouldComponentUpdate(nextProps, nextContext) {
-    return true;
+    return true
   }
 
   render() {
-    const backIcon = <ArrowleftIcon label="Back icon" size="medium" />;
-    const globalPrimaryIcon = <SwitcherIcon label="" size="xlarge" />;
+    const backIcon = <ArrowleftIcon label="Back icon" size="medium" />
+    const globalPrimaryIcon = <SwitcherIcon label="" size="xlarge" />
 
     return (
       <Nav
@@ -72,7 +72,7 @@ export default class StarterNavigation extends React.Component {
             <SearchDrawer
               onResultClicked={() => this.openDrawer(null)}
               onSearchInputRef={ref => {
-                this.searchInputRef = ref;
+                this.searchInputRef = ref
               }}
             />
           </AkSearchDrawer>,
@@ -93,7 +93,7 @@ export default class StarterNavigation extends React.Component {
         onCreateDrawerOpen={() => this.openDrawer("create")}
       >
         {this.state.navLinks.map(link => {
-          const [url, title, Icon] = link;
+          const [url, title, Icon] = link
           return (
             <Link key={url} to={url}>
               <AkNavigationItem
@@ -102,9 +102,9 @@ export default class StarterNavigation extends React.Component {
                 isSelected={this.context.router.isActive(url, true)}
               />
             </Link>
-          );
+          )
         }, this)}
       </Nav>
-    );
+    )
   }
 }

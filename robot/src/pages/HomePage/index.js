@@ -1,13 +1,17 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
-import Page from '@atlaskit/page';
-import { DESKTOP_BREAKPOINT_MIN, MOBILE_BREAKPOINT_MAX, BASE_TITLE } from '../../constants';
-import debounce from 'lodash.debounce';
-import { Helmet } from 'react-helmet';
-import DesktopLayout from './layouts/Desktop';
-import MobileLayout from './layouts/Mobile';
+import PropTypes from "prop-types"
+import React, { Component } from "react"
+import styled from "styled-components"
+import { colors } from "@atlaskit/theme"
+import Page from "@atlaskit/page"
+import debounce from "lodash.debounce"
+import { Helmet } from "react-helmet"
+import {
+  DESKTOP_BREAKPOINT_MIN,
+  MOBILE_BREAKPOINT_MAX,
+  BASE_TITLE
+} from "../../constants"
+import DesktopLayout from "./layouts/Desktop"
+import MobileLayout from "./layouts/Mobile"
 
 const HomePageWrapper = styled.div`
   margin: 0 auto;
@@ -21,7 +25,7 @@ const HomePageWrapper = styled.div`
   @media (max-width: ${DESKTOP_BREAKPOINT_MIN}px) {
     margin: 12px;
   }
-`;
+`
 
 const Style = () => (
   <style>{`
@@ -29,8 +33,7 @@ const Style = () => (
     background-color: ${colors.B500};
   }
 `}</style>
-);
-
+)
 
 export default class HomePage extends Component {
   static contextTypes = {
@@ -38,48 +41,47 @@ export default class HomePage extends Component {
     addFlag: PropTypes.func,
     onConfirm: PropTypes.func,
     onCancel: PropTypes.func,
-    onClose: PropTypes.func,
-  };
+    onClose: PropTypes.func
+  }
 
   constructor() {
-    super(...arguments);
+    super(...arguments)
     this.state = {
-        isMobile: false,
-        cardsData: [],
-    };
+      isMobile: false,
+      cardsData: []
+    }
 
     // Method to allow for mobile responsiveness
     this.detectWidth = () => {
-      const width = window.innerWidth;
+      const width = window.innerWidth
       if (width <= MOBILE_BREAKPOINT_MAX) {
-          this.setState({ isMobile: true });
+        this.setState({ isMobile: true })
       } else {
-        this.setState({ isMobile: false });
+        this.setState({ isMobile: false })
       }
-    };
+    }
 
     // Callback to allow char bot to send card data
     this.sendCardData = (data, type) => {
-      if (data != null){
-        console.log("Card Data Sent in Callback: ", data, type);
-        this.setState({cardsData: data});
+      if (data != null) {
+        console.log("Card Data Sent in Callback: ", data, type)
+        this.setState({ cardsData: data })
       } else {
-        console.log("Removing News card ", data, type);
-        this.setState({cardsData: []})
+        console.log("Removing News card ", data, type)
+        this.setState({ cardsData: [] })
       }
-      
-    };
-
-  };
+    }
+  }
 
   componentDidMount() {
-    this.debouncedDetect = debounce(this.detectWidth, 500);
-    window.addEventListener('resize', this.debouncedDetect);
-    this.detectWidth();
+    this.debouncedDetect = debounce(this.detectWidth, 500)
+    window.addEventListener("resize", this.debouncedDetect)
+    this.detectWidth()
   }
+
   componentWillUnmount() {
     if (this.debouncedDetect) {
-      window.removeEventListener('resize', this.debouncedDetect);
+      window.removeEventListener("resize", this.debouncedDetect)
     }
   }
 
@@ -87,27 +89,30 @@ export default class HomePage extends Component {
     const renderLayout = () => {
       if (!this.state.isMobile) {
         return (
-          <DesktopLayout cardData={this.state.cardsData} sendData={this.sendCardData.bind(this)}/>
-        ) 
-      } else {
-        return (
-          <MobileLayout cardData={this.state.cardsData} sendData={this.sendCardData.bind(this)}/>
+          <DesktopLayout
+            cardData={this.state.cardsData}
+            sendData={this.sendCardData.bind(this)}
+          />
         )
       }
+      return (
+        <MobileLayout
+          cardData={this.state.cardsData}
+          sendData={this.sendCardData.bind(this)}
+        />
+      )
     }
 
     return (
       <div>
         <Helmet>
-            <title>{`${BASE_TITLE}`}</title>
-          </Helmet>
+          <title>{`${BASE_TITLE}`}</title>
+        </Helmet>
         <HomePageWrapper>
           <Style />
-          <Page>
-            {renderLayout()}
-          </Page>
+          <Page>{renderLayout()}</Page>
         </HomePageWrapper>
       </div>
-    );
+    )
   }
 }

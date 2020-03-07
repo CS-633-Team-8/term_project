@@ -1,7 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import ChatWindow from './index';
+import React from "react"
+import { shallow } from "enzyme"
+import ChatWindow from "./index"
 
-test('renders without crashing', () => {
-  shallow(<ChatWindow />);
-});
+test("renders without crashing", () => {
+  shallow(<ChatWindow />)
+})
