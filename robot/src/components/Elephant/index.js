@@ -1,15 +1,15 @@
-import * as React from "react";
-import { useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import styled from "styled-components";
+import * as React from "react"
+import { useState } from "react"
+import { motion, useMotionValue, useTransform } from "framer-motion"
+import styled from "styled-components"
 
-import { MOBILE_BREAKPOINT_MAX } from "../../constants";
+import { MOBILE_BREAKPOINT_MAX } from "../../constants"
 
 const tickVariants = {
   pressed: isChecked => ({ pathLength: isChecked ? 0.85 : 0.2 }),
   checked: { pathLength: 1 },
   unchecked: { pathLength: 0 }
-};
+}
 
 export const ElephantWrapper = styled.div`
   display: flex;
@@ -21,12 +21,12 @@ export const ElephantWrapper = styled.div`
   @media (max-width: ${MOBILE_BREAKPOINT_MAX}px) {
     margin-top: 0;
   }
-`;
+`
 
 const Elephant = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const pathLength = useMotionValue(0);
-  const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1]);
+  const [isChecked, setIsChecked] = useState(false)
+  const pathLength = useMotionValue(0)
+  const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1])
   return (
     <ElephantWrapper>
       <motion.svg
@@ -245,7 +245,7 @@ const Elephant = () => {
         />
       </motion.svg>
     </ElephantWrapper>
-  );
-};
+  )
+}
 
-export default Elephant;
+export default Elephant

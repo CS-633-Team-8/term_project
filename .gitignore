@@ -1,7 +1,8 @@
 node_modules
 build
 npm-debug.log
-.env
+*.env
 .DS_Store
 DO_NOT_COMMI.json
 server/.DS_Store
+server/DO_NOT_COMMI.json

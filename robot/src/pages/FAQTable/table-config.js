@@ -1,4 +1,5 @@
-export const caption = "This is where you can add, edit and delete Harolds answers to Frequently Asked Questions";
+export const caption =
+  "This is where you can add, edit and delete Harolds answers to Frequently Asked Questions"
 export const createHead = withWidth => {
   return {
     cells: [
@@ -21,6 +22,6 @@ export const createHead = withWidth => {
         width: withWidth ? 15 : undefined
       }
     ]
-  };
-};
-export const head = createHead(true);
+  }
+}
+export const head = createHead(true)

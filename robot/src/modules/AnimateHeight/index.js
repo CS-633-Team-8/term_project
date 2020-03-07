@@ -1,12 +1,12 @@
-import { motion } from "framer-motion";
-import React, { useRef } from "react";
-import { useMeasure } from "./use-measure";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import { motion } from "framer-motion"
+import React, { useRef } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { useMeasure } from "./use-measure"
 
 const Container = styled(motion.div)`
   overflow: hidden;
-`;
+`
 
 export default function AnimateHeight({
   duration,
@@ -16,8 +16,8 @@ export default function AnimateHeight({
   children,
   ...other
 }) {
-  const ref = useRef(null);
-  const bounds = useMeasure(ref);
+  const ref = useRef(null)
+  const bounds = useMeasure(ref)
 
   return (
     <Container
@@ -40,7 +40,7 @@ export default function AnimateHeight({
         <div ref={ref}>{children}</div>
       )}
     </Container>
-  );
+  )
 }
 
 /**
@@ -50,9 +50,9 @@ export default function AnimateHeight({
  */
 
 function getAutoHeightDuration(height) {
-  if (!height) return 0;
-  const constant = height / 36;
-  return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10);
+  if (!height) return 0
+  const constant = height / 36
+  return Math.round((4 + 15 * constant ** 0.25 + constant / 5) * 10)
 }
 
 AnimateHeight.propTypes = {
@@ -64,7 +64,7 @@ AnimateHeight.propTypes = {
     open: PropTypes.object,
     collapsed: PropTypes.object
   })
-};
+}
 
 AnimateHeight.defaultProps = {
   ease: "easeOut",
@@ -75,4 +75,4 @@ AnimateHeight.defaultProps = {
     },
     collapsed: { opacity: 0, height: 0 }
   }
-};
+}

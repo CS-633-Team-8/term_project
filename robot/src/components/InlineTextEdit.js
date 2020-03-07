@@ -1,7 +1,7 @@
-import React from 'react';
-import { InlineEditableTextfield } from '@atlaskit/inline-edit';
+import React from "react"
+import { InlineEditableTextfield } from "@atlaskit/inline-edit"
 
-const InlineTextEdit = (props) => {
+const InlineTextEdit = props => {
   return (
     // <div
     //     style={{
@@ -9,12 +9,12 @@ const InlineTextEdit = (props) => {
     //     }}
     //   >
     <InlineEditableTextfield
-          defaultValue={props.value}
-          onConfirm={value => props.onConfirm(props.index, props.cell, value )}
-          placeholder="Click to enter text"
-        />
-    //</div>
-  );
+      defaultValue={props.value}
+      onConfirm={value => props.onConfirm(props.index, props.cell, value)}
+      placeholder="Click to enter text"
+    />
+    // </div>
+  )
 }
 
-export default InlineTextEdit;
+export default InlineTextEdit

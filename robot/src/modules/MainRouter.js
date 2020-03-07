@@ -1,38 +1,35 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { BrowserRouter, Route} from "react-router-dom";
-import App from './App';
-import HomePage from '../pages/HomePage';
-import SettingsPage from '../pages/SettingsPage';
+import PropTypes from "prop-types"
+import React, { Component } from "react"
+import { BrowserRouter, Route } from "react-router-dom"
+import App from "./App"
+import HomePage from "../pages/HomePage"
+import SettingsPage from "../pages/SettingsPage"
 
 export default class MainRouter extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       navOpenState: {
         isOpen: true,
-        width: 304,
+        width: 304
       }
     }
   }
 
-  getChildContext () {
+  getChildContext() {
     return {
-      navOpenState: this.state.navOpenState,
-    };
+      navOpenState: this.state.navOpenState
+    }
   }
 
-  appWithPersistentNav = () => (props) => (
-    <App
-      onNavResize={this.onNavResize}
-      {...props}
-    />
+  appWithPersistentNav = () => props => (
+    <App onNavResize={this.onNavResize} {...props} />
   )
 
-  onNavResize = (navOpenState) => {
+  onNavResize = navOpenState => {
     this.setState({
-      navOpenState,
-    });
+      navOpenState
+    })
   }
 
   render() {
@@ -43,10 +40,10 @@ export default class MainRouter extends Component {
           <Route path="/settings" component={SettingsPage} />
         </Route>
       </BrowserRouter>
-    );
+    )
   }
 }
 
 MainRouter.childContextTypes = {
-  navOpenState: PropTypes.object,
+  navOpenState: PropTypes.object
 }

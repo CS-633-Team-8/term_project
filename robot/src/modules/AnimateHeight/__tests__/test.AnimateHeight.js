@@ -1,9 +1,6 @@
+import React from "react"
+import { shallow } from "enzyme"
 
-
-import React from 'react';
-import { shallow } from 'enzyme';
-
-
-test('it renders', () => {
-  expect(3).toBe(3);
-});
+test("it renders", () => {
+  expect(3).toBe(3)
+})

@@ -28,7 +28,7 @@ let pusher = new Pusher({
   key: process.env.PUSHER_APP_KEY,
   secret: process.env.PUSHER_APP_SECRET,
   cluster: "us3",
-  encrypted: true
+  useTLS: true
 });
 
 let newsapi = new NewsAPI(process.env.NEWS_API_KEY);
@@ -155,12 +155,6 @@ const processMessage = (sessionId, message) => {
                 message: result.fulfillmentText,
                 sessionId: sessionId
               })
-              .catch(err => {
-                console.error(
-                  "Error from pusher trigger bot in process-message: ",
-                  err
-                );
-              });
           }
           //return res.sendStatus(200);
         });
